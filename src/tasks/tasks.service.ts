@@ -5,6 +5,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { TaskStatus } from './task-status.enum';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
+import { FindOneOptions } from 'typeorm';
 
 @Injectable()
 export class TasksService {
@@ -33,13 +34,11 @@ export class TasksService {
   //   return tasks;
   // }
 
-  async getTaskById(id: string): Promise<Task> {
-    const found = await this.tasksRepository.findOne(id);
-
+  async getTaskById(id: string, condtion: FindOneOptions<Task>): Promise<Task> {
+    const found = await this.tasksRepository.findOne(id, condtion);
     if (!found) {
-      throw new NotFoundException(`Task with ID "${id}" not found`);
+      throw new NotFoundException(`Task with ID  not found`);
     }
-
     return found;
   }
 
